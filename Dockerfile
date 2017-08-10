@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-devel
+FROM ubuntu:trusty
 
 RUN apt-get update \
   && apt-get upgrade -y \
@@ -27,9 +27,6 @@ RUN cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib && \
 
 RUN git clone --recursive https://github.com/dmlc/mxnet && cd mxnet \
   && cp make/config.mk . \
-  && echo "USE_CUDA=1" >> config.mk \
-  && echo "USE_CUDA_PATH=/usr/local/cuda" >> config.mk \
-  && echo "USE_CUDNN=1" >> config.mk \
   && echo "USE_BLAS=atlas" >> config.mk \
   && echo "USE_DIST_KVSTORE=1" >> config.mk \
   && make -j$(nproc) \
